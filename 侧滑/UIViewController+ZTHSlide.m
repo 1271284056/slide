@@ -88,11 +88,10 @@ static const char *ZTHSlideActionBlockKey = "ZTHSlideActionBlockKey";
     slideTransition.isDrag = YES;
     controller.transitioningDelegate = slideTransition;
     controller.modalPresentationStyle = UIModalPresentationCustom;
-    [gesture setTranslation:CGPointZero inView:gesture.view];
     if (gesture) {//刚开始滑动
         [self presentViewController:controller animated:YES completion:nil];
     }else{//拖拽或取消
-        [slideTransition.maskView drag:moveX isCancleOrEnd:isCancleOrEnd];
+        [slideTransition.maskView drag:moveX isCancleOrEnd:isCancleOrEnd gesture:gesture];
     }
 }
 

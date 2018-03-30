@@ -58,7 +58,7 @@ typedef NS_ENUM(NSInteger, ZTHSlideTransitionType) {
 //左视图上拖拽手势
 @property (nonatomic, strong) UIPanGestureRecognizer *leftViewPan;
 //拖拽移动view
-- (void)drag:(CGFloat)moveX isCancleOrEnd:(BOOL)isCancleOrEnd;
+- (void)drag:(CGFloat)moveX isCancleOrEnd:(BOOL)isCancleOrEnd gesture:(UIPanGestureRecognizer *)gesture;
 
 
 @end

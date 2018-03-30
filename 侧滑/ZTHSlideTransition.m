@@ -194,7 +194,7 @@ static dispatch_once_t zth_mask_onceToken;
 }
 
 //首页拖拽手势
-- (void)drag:(CGFloat)moveX isCancleOrEnd:(BOOL)isCancleOrEnd {
+- (void)drag:(CGFloat)moveX isCancleOrEnd:(BOOL)isCancleOrEnd gesture:(UIPanGestureRecognizer *)gesture{
     if (moveX - self.containController.view.width > 0) {
         return;
     }
@@ -222,23 +222,32 @@ static dispatch_once_t zth_mask_onceToken;
 //挡板拖拽手势
 - (void)handleGesture:(UIPanGestureRecognizer *)pan {
     CGPoint touchPoint = [pan locationInView: [[UIApplication sharedApplication] keyWindow]];
+    //拖拽速度
+    CGPoint velocity = [pan velocityInView:self];
     if (pan.state == UIGestureRecognizerStateBegan) {//开始
         _isMoving = YES;
         _startTouch = touchPoint;
     }else if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled){
-        if (self.containController.view.x > -self.containController.view.width/2) {//显示完成
-            [UIView animateWithDuration:0.1 animations:^{
-                self.containController.view.x = 0;
-            } completion:^(BOOL finished) {
-                _isMoving = NO;
-            }];
-        }else{
-            [UIView animateWithDuration:0.1 animations:^{//消失完成
+
+        CGFloat isClose = NO;
+        // 如果是向左滑动，速度够快,x偏移量大于y方向2倍
+        if (velocity.x < -1000 && fabs(velocity.x) > fabs(velocity.y) / 2) {
+            isClose = YES;
+        }
+//        NSLog(@"----_> %f  %f",velocity.x,velocity.y);
+        if (self.containController.view.x < -self.containController.view.width/2 || isClose) {
+            [UIView animateWithDuration:0.1 animations:^{//消失
                 self.containController.view.x = -self.containController.view.width;
             } completion:^(BOOL finished) {
                 _isMoving = NO;
                 [self.containController dismissViewControllerAnimated:NO completion:nil] ;
                 [self.slideTransition clearData];
+            }];
+        }else{//显示
+            [UIView animateWithDuration:0.1 animations:^{
+                self.containController.view.x = 0;
+            } completion:^(BOOL finished) {
+                _isMoving = NO;
             }];
         }
         return;
