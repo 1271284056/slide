@@ -65,9 +65,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-//立即关闭(无动画关闭),有时点击侧栏页,需要立即关闭侧栏,用首页控制器的导航栏打开一个新的控制器 不要用dismissViewControllerAnimated:NO,
+//立即关闭(无动画关闭),有时点击侧栏页,需要立即关闭侧栏,用首页控制器的导航栏打开一个新的控制器,不要用dismissViewControllerAnimated:NO
 - (void)closemmediately {
-    [self.presentingViewController closeLeftControllereNoAnimation];
+    [self.presentingViewController closeLeftControllerNoAnimation];
 
 }
 
