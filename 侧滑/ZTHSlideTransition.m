@@ -63,6 +63,7 @@
     [containView addSubview:maskView];
     [containView addSubview:toController.view];
     if (self.isDrag) {//首页拖拽开始
+        maskView.alpha = 0.02;
         [UIView animateWithDuration:0.02 animations:^{
 
         } completion:^(BOOL finished) {
@@ -135,6 +136,7 @@ static dispatch_once_t zth_mask_onceToken;
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        [self addObserver: self forKeyPath: @"containController.view.x" options: NSKeyValueObservingOptionNew context: nil];
 
         self.backgroundColor = [UIColor blackColor];
         self.alpha = 0.3;
@@ -160,6 +162,22 @@ static dispatch_once_t zth_mask_onceToken;
     self.leftViewPan = pan;
     [_containController.view addGestureRecognizer:pan];
 }
+
+/** * 监听属性值发生改变时回调 改变蒙版透明度*/
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    NSNumber *new = change[NSKeyValueChangeNewKey];
+//    NSLog(@"new--> %f",[new floatValue]);
+    CGFloat maskAlpha = ([new floatValue] + self.containController.view.width) / self.containController.view.width;
+    if (maskAlpha < 0.02) {
+        maskAlpha = 0.02;
+    }
+    if (maskAlpha > 0.3) {
+        maskAlpha = 0.3;
+    }
+    self.alpha = maskAlpha;
+}
+
+
 
 //蒙版点击手势
 - (void)singleTap {
@@ -237,6 +255,7 @@ static dispatch_once_t zth_mask_onceToken;
 }
 
 - (void)dealloc {
+    [self removeObserver:self forKeyPath:@"containController.view.x"];
 //    NSLog(@"mask dealloc");
 }
 
