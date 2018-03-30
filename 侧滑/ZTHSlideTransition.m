@@ -17,6 +17,15 @@
 
 @implementation ZTHSlideTransition
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _begainAnimaitonTime = 0.25;
+        _closeAnimaitonTime = 0.25;
+    }
+    return self;
+}
+
 //UIViewControllerAnimatedTransitioning
 //动画时间
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
@@ -70,7 +79,7 @@
             [transitionContext completeTransition:YES];
         }];
     }else{//点击开始
-        [UIView animateWithDuration:0.25 animations:^{
+        [UIView animateWithDuration:_begainAnimaitonTime animations:^{
             toController.view.x = 0;
         } completion:^(BOOL finished) {
             [transitionContext completeTransition:YES];
@@ -87,7 +96,7 @@
     UIView *leftView = leftController.view;
     [containView addSubview:leftView];
 
-    [UIView animateWithDuration:0.25 animations:^{
+    [UIView animateWithDuration:_closeAnimaitonTime animations:^{
         leftView.x = -leftView.width;
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:YES];

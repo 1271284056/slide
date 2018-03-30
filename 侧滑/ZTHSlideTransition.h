@@ -27,6 +27,11 @@ typedef NS_ENUM(NSInteger, ZTHSlideTransitionType) {
 //是否滑动滑出侧滑控制器
 @property (nonatomic, assign) BOOL isDrag;
 
+//开始结束动画世界
+@property (nonatomic, assign) CGFloat begainAnimaitonTime;
+@property (nonatomic, assign) CGFloat closeAnimaitonTime;
+
+
 //清除数据
 - (void)clearData;
 

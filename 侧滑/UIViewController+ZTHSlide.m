@@ -138,4 +138,14 @@ static const char *ZTHSlideActionBlockKey = "ZTHSlideActionBlockKey";
     }
 }
 
+//左视图关闭没有动画
+- (void)closeLeftControllereNoAnimation {
+    ZTHSlideTransition *slideTransition = objc_getAssociatedObject(self, ZTHSlideTransitionKey);
+    if (slideTransition) {
+        slideTransition.closeAnimaitonTime = 0.02;
+        [slideTransition.containController dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+
 @end

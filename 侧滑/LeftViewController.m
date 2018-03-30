@@ -8,6 +8,7 @@
 
 #import "LeftViewController.h"
 #import "UIView+QDMailAdditions.h"
+#import "UIViewController+ZTHSlide.h"
 
 #define ZTH_Status_Bar_Height  [UIApplication sharedApplication].statusBarFrame.size.height
 
@@ -64,11 +65,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-//立即关闭,有时点击侧栏页,需要关闭侧栏,用首页控制器的导航栏打开一个新的控制器
+//立即关闭(无动画关闭),有时点击侧栏页,需要立即关闭侧栏,用首页控制器的导航栏打开一个新的控制器 不要用dismissViewControllerAnimated:NO,
 - (void)closemmediately {
-    [self dismissViewControllerAnimated:NO completion:^{
-        
-    }];
+    [self.presentingViewController closeLeftControllereNoAnimation];
 
 }
 

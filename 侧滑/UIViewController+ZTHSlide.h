@@ -28,4 +28,7 @@ static const char *ZTHSlideBegainX = "ZTHSlideBegainX";
 //拖拽出来左控制器
 - (void)zth_showDragSlideController:(UIViewController *)controller gesture:(UIPanGestureRecognizer *)gesture moveX:(CGFloat)moveX isCancleOrEnd:(BOOL)isCancleOrEnd;
 
+//左视图关闭没有动画
+- (void)closeLeftControllereNoAnimation;
+
 @end
