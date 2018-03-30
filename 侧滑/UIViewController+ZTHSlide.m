@@ -72,7 +72,7 @@ static const char *ZTHSlideActionBlockKey = "ZTHSlideActionBlockKey";
     }else if (gesture.state == UIGestureRecognizerStateCancelled || gesture.state == UIGestureRecognizerStateEnded) {
         //结束
         if (action){
-            action(nil, 0 ,YES);
+            action(gesture, 0 ,YES);
         }
     }
 }
@@ -88,7 +88,7 @@ static const char *ZTHSlideActionBlockKey = "ZTHSlideActionBlockKey";
     slideTransition.isDrag = YES;
     controller.transitioningDelegate = slideTransition;
     controller.modalPresentationStyle = UIModalPresentationCustom;
-    if (gesture) {//刚开始滑动
+    if (gesture && !isCancleOrEnd) {//刚开始滑动
         [self presentViewController:controller animated:YES completion:nil];
     }else{//拖拽或取消
         [slideTransition.maskView drag:moveX isCancleOrEnd:isCancleOrEnd gesture:gesture];

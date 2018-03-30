@@ -186,8 +186,6 @@ static dispatch_once_t zth_mask_onceToken;
     self.alpha = maskAlpha;
 }
 
-
-
 //蒙版点击手势
 - (void)singleTap {
     [self.containController dismissViewControllerAnimated:YES completion:nil];
@@ -199,8 +197,16 @@ static dispatch_once_t zth_mask_onceToken;
         return;
     }
     if (isCancleOrEnd) {//结束 清空开始x
+        //拖拽速度
+        CGPoint velocity = [gesture velocityInView:self];
+        //是否可以显示
+        BOOL isShow = NO;
+        // 如果是向右滑动，速度够快,x偏移量大于y方向2倍
+        if (velocity.x > 1000 && fabs(velocity.x) > fabs(velocity.y) / 2) {
+            isShow = YES;
+        }
         objc_setAssociatedObject(self.containController, ZTHSlideBegainX, nil, OBJC_ASSOCIATION_COPY);
-        if (self.containController.view.x > -self.containController.view.width/2) {
+        if (self.containController.view.x > -self.containController.view.width/2 || isShow) {
             [UIView animateWithDuration:0.1 animations:^{
                 self.containController.view.x = 0;
             } completion:^(BOOL finished) {//显示完成
@@ -222,20 +228,20 @@ static dispatch_once_t zth_mask_onceToken;
 //挡板拖拽手势
 - (void)handleGesture:(UIPanGestureRecognizer *)pan {
     CGPoint touchPoint = [pan locationInView: [[UIApplication sharedApplication] keyWindow]];
-    //拖拽速度
-    CGPoint velocity = [pan velocityInView:self];
     if (pan.state == UIGestureRecognizerStateBegan) {//开始
         _isMoving = YES;
         _startTouch = touchPoint;
     }else if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled){
-
-        CGFloat isClose = NO;
+        //拖拽速度
+        CGPoint velocity = [pan velocityInView:self];
+        //是否可以关闭
+        BOOL isClose = NO;
         // 如果是向左滑动，速度够快,x偏移量大于y方向2倍
         if (velocity.x < -1000 && fabs(velocity.x) > fabs(velocity.y) / 2) {
             isClose = YES;
         }
-//        NSLog(@"----_> %f  %f",velocity.x,velocity.y);
-        if (self.containController.view.x < -self.containController.view.width/2 || isClose) {
+//        NSLog(@"----_> %f  %d",velocity.x,isClose);
+        if (self.containController.view.frame.origin.x < -(self.containController.view.width - [UIScreen mainScreen].bounds.size.width/2) || isClose) {
             [UIView animateWithDuration:0.1 animations:^{//消失
                 self.containController.view.x = -self.containController.view.width;
             } completion:^(BOOL finished) {
