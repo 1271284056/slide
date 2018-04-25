@@ -60,6 +60,10 @@
     }];
 }
 
+- (void)dealloc {
+    NSLog(@"左滑控制器切换宝宝 delloc");
+}
+
 //关闭左边控制器
 - (void)buttonclick {
     [self dismissViewControllerAnimated:YES completion:nil];

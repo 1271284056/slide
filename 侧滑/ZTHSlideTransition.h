@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, ZTHSlideTransitionType) {
 //起始控制器
 @property (nonatomic, weak) UIViewController *fromController;
 //leftviewController
-@property (nonatomic, strong) UIViewController *containController;
+@property (nonatomic, weak) UIViewController *containController;
 //左视图出来后面的蒙版
 @property (nonatomic, strong) ZTHSlideMaskView *maskView;
 //是否滑动滑出侧滑控制器
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, ZTHSlideTransitionType) {
 //蒙版上的拖拽手势
 @property (nonatomic, strong) UIPanGestureRecognizer *pan;
 //leftvc
-@property (nonatomic, strong) UIViewController *containController;
+@property (nonatomic, weak) UIViewController *containController;
 
 //创建,这样写为了不让它自动释放,手动销毁
 + (instancetype)shareInstance;
@@ -64,5 +64,6 @@ typedef NS_ENUM(NSInteger, ZTHSlideTransitionType) {
 
 
 @end
+
 
 

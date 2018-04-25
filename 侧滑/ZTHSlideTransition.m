@@ -184,7 +184,7 @@ static dispatch_once_t zth_mask_onceToken;
 /** * 监听属性值发生改变时回调 改变蒙版透明度*/
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     NSNumber *new = change[NSKeyValueChangeNewKey];
-    CGFloat maskAlpha = ([new floatValue] + self.containController.view.width) / self.containController.view.width;
+    CGFloat maskAlpha = ([new floatValue] + self.slideTransition.leftViewWidth) / self.slideTransition.leftViewWidth;
     if (maskAlpha < 0.02) {
         maskAlpha = 0.02;
     }
