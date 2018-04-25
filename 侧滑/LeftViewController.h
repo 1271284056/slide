@@ -10,6 +10,10 @@
 
 @interface LeftViewController : UIViewController
 
+//左边控制器view宽度
+@property (nonatomic, assign) CGFloat leftViewWidth;
+
+
 
 
 @end

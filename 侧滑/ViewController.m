@@ -31,14 +31,14 @@
     
     //右滑滑出侧滑控制器
     __weak typeof(self) weakSelf = self;
-     [self zth_setPanActionWithBlock:^(UIPanGestureRecognizer *gesture,CGFloat moveX,BOOL isCancleOrEnd) {
-         [weakSelf zth_showDragSlideController:weakSelf.leftController gesture:gesture moveX:moveX isCancleOrEnd:isCancleOrEnd];
-     }];
+    [self zth_setPanActionWithBlock:^(UIPanGestureRecognizer *gesture, CGFloat moveX, BOOL isCancleOrEnd) {
+        [weakSelf zth_showDragSlideController:weakSelf.leftController viewWidth:weakSelf.leftController.leftViewWidth gesture:gesture moveX:moveX isCancleOrEnd:isCancleOrEnd];
+    }];
 }
 
 //点击弹出控制器
 - (void)buttonclick {
-    [self zth_showSlideController:self.leftController];
+    [self zth_showSlideController:self.leftController viewWidth:self.leftController.leftViewWidth];
 }
 
 //如果页面有可以左右滑动的 scroolView,自己判断是否允许侧滑
@@ -74,6 +74,7 @@
 - (LeftViewController *)leftController {
     if (_leftController == nil) {
         _leftController = [[LeftViewController alloc] init];
+        _leftController.leftViewWidth = [UIScreen mainScreen].bounds.size.width - 80;
     }
     return _leftController;
 }

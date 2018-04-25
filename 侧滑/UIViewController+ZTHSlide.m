@@ -20,13 +20,14 @@ static const char *ZTHSlideActionBlockKey = "ZTHSlideActionBlockKey";
 @implementation UIViewController (ZTHSlide)
 
 //点击动画
-- (void)zth_showSlideController:(UIViewController *)controller {
+- (void)zth_showSlideController:(UIViewController *)controller viewWidth:(CGFloat)viewWidth{
     //转场动画
     ZTHSlideTransition *slideTransition = objc_getAssociatedObject(self, ZTHSlideTransitionKey);
     if (!slideTransition) {
         slideTransition = [[ZTHSlideTransition alloc] init];
         objc_setAssociatedObject(self, ZTHSlideTransitionKey, slideTransition, OBJC_ASSOCIATION_RETAIN);
     }
+    slideTransition.leftViewWidth = viewWidth;
     slideTransition.isDrag = NO;
     controller.transitioningDelegate = slideTransition;
     controller.modalPresentationStyle = UIModalPresentationCustom;
@@ -78,13 +79,14 @@ static const char *ZTHSlideActionBlockKey = "ZTHSlideActionBlockKey";
 }
 
 //首页拖拽出来的leftController
-- (void)zth_showDragSlideController:(UIViewController *)controller gesture:(UIPanGestureRecognizer *)gesture moveX:(CGFloat)moveX isCancleOrEnd:(BOOL)isCancleOrEnd {
+- (void)zth_showDragSlideController:(UIViewController *)controller viewWidth:(CGFloat)viewWidth gesture:(UIPanGestureRecognizer *)gesture moveX:(CGFloat)moveX isCancleOrEnd:(BOOL)isCancleOrEnd {
     //转场动画
     ZTHSlideTransition *slideTransition = objc_getAssociatedObject(self, ZTHSlideTransitionKey);
     if (!slideTransition) {
         slideTransition = [[ZTHSlideTransition alloc] init];
         objc_setAssociatedObject(self, ZTHSlideTransitionKey, slideTransition, OBJC_ASSOCIATION_RETAIN);
     }
+    slideTransition.leftViewWidth = viewWidth;
     slideTransition.isDrag = YES;
     controller.transitioningDelegate = slideTransition;
     controller.modalPresentationStyle = UIModalPresentationCustom;

@@ -57,11 +57,13 @@
 //实现present动画逻辑代码
 - (void)presentAnimation:(id<UIViewControllerContextTransitioning>)transitionContext {
     UIView *containView = transitionContext.containerView;
+    
     UIViewController *fromController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    
     //leftVc = toController
     UIViewController *toController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     self.fromController = fromController;
-    toController.view.x = -[UIScreen mainScreen].bounds.size.width;
+    toController.view.x = -self.leftViewWidth;
     self.containController = toController;
     //显示蒙版
     ZTHSlideMaskView *maskView = [ZTHSlideMaskView shareInstance];
@@ -143,9 +145,16 @@ static dispatch_once_t zth_mask_onceToken;
     return zth_mask_shareInstance;
 }
 
+
++ (void)releaseInstance{
+    [zth_mask_shareInstance removeFromSuperview];
+    zth_mask_onceToken = 0;
+    zth_mask_shareInstance = nil;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self addObserver: self forKeyPath: @"containController.view.x" options: NSKeyValueObservingOptionNew context: nil];
+        [self addObserver: self forKeyPath: @"containController.view.x" options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context: nil];
 
         self.backgroundColor = [UIColor blackColor];
         self.alpha = 0.3;
@@ -175,7 +184,6 @@ static dispatch_once_t zth_mask_onceToken;
 /** * 监听属性值发生改变时回调 改变蒙版透明度*/
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     NSNumber *new = change[NSKeyValueChangeNewKey];
-//    NSLog(@"new--> %f",[new floatValue]);
     CGFloat maskAlpha = ([new floatValue] + self.containController.view.width) / self.containController.view.width;
     if (maskAlpha < 0.02) {
         maskAlpha = 0.02;
@@ -184,6 +192,20 @@ static dispatch_once_t zth_mask_onceToken;
         maskAlpha = 0.3;
     }
     self.alpha = maskAlpha;
+    
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    UIViewController *tabbarController = window.rootViewController;
+    CGFloat startX =  ([new floatValue] + self.slideTransition.leftViewWidth);
+    if (startX < 0) {
+        startX = 0;
+    }
+    if (startX > self.slideTransition.leftViewWidth) {
+        startX = self.slideTransition.leftViewWidth;
+    }
+    tabbarController.view.x = startX;
+    
+//    NSLog(@"new--> %f ---> %f ",[new floatValue] + self.containController.view.width,tabbarController.view.x);
+
 }
 
 //蒙版点击手势
@@ -272,11 +294,7 @@ static dispatch_once_t zth_mask_onceToken;
     self.containController.view.x = x;
 }
 
-+ (void)releaseInstance{
-    [zth_mask_shareInstance removeFromSuperview];
-    zth_mask_onceToken = 0;
-    zth_mask_shareInstance = nil;
-}
+
 
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"containController.view.x"];

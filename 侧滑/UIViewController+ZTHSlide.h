@@ -22,12 +22,11 @@ static const char *ZTHSlideBegainX = "ZTHSlideBegainX";
 @interface UIViewController (ZTHSlide)<UIGestureRecognizerDelegate>
 
 //点击弹出左滑控制器
-- (void)zth_showSlideController:(UIViewController *)controller;
+- (void)zth_showSlideController:(UIViewController *)controller viewWidth:(CGFloat)viewWidth;
 //添加滑动手势
-- (void)zth_setPanActionWithBlock:(void (^)(UIPanGestureRecognizer *gesture,CGFloat moveX,BOOL isCancleOrEnd))block;
+- (void)zth_setPanActionWithBlock:(void (^)(UIPanGestureRecognizer *gesture ,CGFloat moveX,BOOL isCancleOrEnd))block;
 //拖拽出来左控制器
-- (void)zth_showDragSlideController:(UIViewController *)controller gesture:(UIPanGestureRecognizer *)gesture moveX:(CGFloat)moveX isCancleOrEnd:(BOOL)isCancleOrEnd;
-
+- (void)zth_showDragSlideController:(UIViewController *)controller viewWidth:(CGFloat)viewWidth gesture:(UIPanGestureRecognizer *)gesture moveX:(CGFloat)moveX isCancleOrEnd:(BOOL)isCancleOrEnd;
 //左视图关闭没有动画
 - (void)closeLeftControllerNoAnimation;
 

@@ -26,6 +26,8 @@ typedef NS_ENUM(NSInteger, ZTHSlideTransitionType) {
 @property (nonatomic, strong) ZTHSlideMaskView *maskView;
 //是否滑动滑出侧滑控制器
 @property (nonatomic, assign) BOOL isDrag;
+//蒙层view宽度
+@property (nonatomic, assign) CGFloat leftViewWidth;
 
 //开始结束动画世界
 @property (nonatomic, assign) CGFloat begainAnimaitonTime;

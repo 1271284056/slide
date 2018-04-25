@@ -15,6 +15,7 @@
 @property (nonatomic, assign) CGFloat y;
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, assign) CGFloat height;
+@property (nonatomic) CGFloat right;       ///< Shortcut for frame.origin.x + frame.size.width
 
 
 

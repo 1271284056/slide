@@ -37,7 +37,7 @@
     [super viewWillAppear:animated];
     CGRect rect = self.view.frame;
     //这里控制左视图页面大小
-    rect.size.width = [UIScreen mainScreen].bounds.size.width - 80;
+    rect.size.width = self.leftViewWidth;
     self.view.frame = rect;
 }
 
